@@ -2,6 +2,7 @@
 
 html {
   font-family: 'Roboto', sans-serif;
+  background-color: #000;
 }
 
 *,
@@ -30,6 +31,7 @@ body {
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  color: #fff;
 }
 
 ul[class],
