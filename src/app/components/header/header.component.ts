@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {IconComponent} from '../icon/icon.component';
+import {navLinksConst, socialLinksConst} from '../../consts/navigation.constants';
 
 @Component({
   selector: 'app-header',
@@ -13,5 +14,6 @@ import {IconComponent} from '../icon/icon.component';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-
+  socialLinks = socialLinksConst;
+  navLinks = navLinksConst;
 }
