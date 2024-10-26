@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Anticore": {
+    "anticore": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Anticore:build:production"
+              "buildTarget": "anticore:build:production"
             },
             "development": {
-              "buildTarget": "Anticore:build:development"
+              "buildTarget": "anticore:build:development"
             }
           },
           "defaultConfiguration": "development"
