@@ -9,9 +9,18 @@ export class AuthService {
   private authState = signal<boolean>(false);
   isAuthenticated = computed(() => this.authState());
 
+  constructor() {
+    const savedAuthState = localStorage.getItem('authState');
+    if (savedAuthState) {
+      this.authState.set(JSON.parse(savedAuthState));
+    }
+  }
+
   login(email: string, password: string): void {
     signInWithEmailAndPassword(this.auth, email, password).then(userCredential => {
-      this.authState.set(!!userCredential.user);
+      const isAuthenticated = !!userCredential.user;
+      this.authState.set(isAuthenticated);
+      localStorage.setItem('authState', JSON.stringify(isAuthenticated));
     }).catch(error => {
       console.error('Login failed:', error);
     });
@@ -20,6 +29,7 @@ export class AuthService {
   logout(): void {
     signOut(this.auth).then(() => {
       this.authState.set(false);
+      localStorage.removeItem('authState');
     }).catch(error => {
       console.error('Logout failed:', error);
     });

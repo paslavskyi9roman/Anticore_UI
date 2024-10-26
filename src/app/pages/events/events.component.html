@@ -1,4 +1,4 @@
-<div class="events-grid">
+<section class="events-grid">
   @for (event of events; track event.id) {
     <div class="event-card" [routerLink]="['/events', event.id]">
       <img [ngSrc]="event.imageUrl" [alt]="event.title" width="300" height="300" priority>
@@ -8,4 +8,4 @@
       </div>
     </div>
   }
-</div>
+</section>

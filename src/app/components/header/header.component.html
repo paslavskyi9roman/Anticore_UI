@@ -17,14 +17,14 @@
         }
         <li>
           @if (authService.isAuthenticated()) {
-            <a (click)="logout()">Logout</a>
-          } @else {
-            <a routerLink="/login">Login</a>
+            <a [routerLink]="['/admin-events']">Manage Events</a>
           }
         </li>
         <li>
           @if (authService.isAuthenticated()) {
-            <a [routerLink]="['/admin-events']">Manage Events</a>
+            <a (click)="logout()">Logout</a>
+          } @else {
+            <a routerLink="/login">Login</a>
           }
         </li>
       </div>
