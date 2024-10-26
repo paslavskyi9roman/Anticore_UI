@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
-
-import { EventDetails } from '../models/event.iterface';
-import { environment } from '../../environment/environment';
+import {EventDetails} from '../models/event.iterface';
+import {environment} from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,32 +11,28 @@ export class FirebaseService {
   private app = initializeApp(environment.firebase);
   private db = getFirestore(this.app);
 
-  getEvents(): Observable<EventDetails[]> {
+  async getEvents(): Promise<EventDetails[]> {
     const eventsCol = collection(this.db, 'events');
-    const eventSnapshotPromise = getDocs(eventsCol);
-    return from(eventSnapshotPromise.then(eventSnapshot =>
-      eventSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      } as EventDetails))
-    ));
+    const eventSnapshot = await getDocs(eventsCol);
+    return eventSnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    } as EventDetails));
   }
 
-  addEvent(event: Omit<EventDetails, 'id'>): Observable<string> {
+  async addEvent(event: Omit<EventDetails, 'id'>): Promise<string> {
     const eventsCol = collection(this.db, 'events');
-    const docRefPromise = addDoc(eventsCol, event);
-    return from(docRefPromise.then(docRef => docRef.id));
+    const docRef = await addDoc(eventsCol, event);
+    return docRef.id;
   }
 
-  updateEvent(event: EventDetails): Observable<void> {
+  async updateEvent(event: EventDetails): Promise<void> {
     const eventRef = doc(this.db, 'events', event.id);
-    const updateDocPromise = updateDoc(eventRef, { ...event });
-    return from(updateDocPromise);
+    await updateDoc(eventRef, { ...event });
   }
 
-  deleteEvent(eventId: string): Observable<void> {
+  async deleteEvent(eventId: string): Promise<void> {
     const eventRef = doc(this.db, 'events', eventId);
-    const deleteDocPromise = deleteDoc(eventRef);
-    return from(deleteDocPromise);
+    await deleteDoc(eventRef);
   }
 }
