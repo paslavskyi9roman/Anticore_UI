@@ -7,7 +7,9 @@ import {NgClass} from '@angular/common';
   imports: [
     NgClass
   ],
-  templateUrl: './icon.component.html',
+  template: `
+    <div class="icon" [ngClass]="icon"></div>
+  `,
   styleUrl: './icon.component.scss'
 })
 export class IconComponent {

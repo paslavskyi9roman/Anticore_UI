@@ -1,0 +1,36 @@
+<div class="event-detail">
+  @if (event) {
+    <div class="event-header">
+      <h1>{{ event.title }}</h1>
+      <p class="date">{{ event.date | date:'fullDate' }}</p>
+    </div>
+
+    <div class="event-content">
+      <img [src]="event.imageUrl" [alt]="event.title">
+
+      <div class="event-info">
+        <p class="description">{{ event.description }}</p>
+
+        @if (event.location) {
+          <div class="info-item">
+            <strong>Location:</strong>
+            <span>{{ event.location }}</span>
+          </div>
+        }
+
+        @if (event.price) {
+          <div class="info-item">
+            <strong>Price:</strong>
+            <span>{{ event.price }}</span>
+          </div>
+        }
+
+        @if (event.ticketLink) {
+          <a [href]="event.ticketLink" target="_blank" class="ticket-button">
+            Get Tickets
+          </a>
+        }
+      </div>
+    </div>
+  }
+</div>

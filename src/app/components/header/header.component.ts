@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {RouterLink} from '@angular/router';
+
 import {IconComponent} from '../icon/icon.component';
 import {navLinksConst, socialLinksConst} from '../../consts/navigation.constants';
 
