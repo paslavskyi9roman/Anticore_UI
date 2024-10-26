@@ -15,6 +15,18 @@
             <a [routerLink]="link.routerLink">{{ link.label }}</a>
           </li>
         }
+        <li>
+          @if (authService.isAuthenticated()) {
+            <a (click)="logout()">Logout</a>
+          } @else {
+            <a routerLink="/login">Login</a>
+          }
+        </li>
+        <li>
+          @if (authService.isAuthenticated()) {
+            <a [routerLink]="['/admin-events']">Manage Events</a>
+          }
+        </li>
       </div>
     </ul>
   </nav>

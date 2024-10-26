@@ -10,5 +10,5 @@ export const navLinksConst: NavLink[] = [
   { routerLink: '/events', label: 'Events' },
   { routerLink: '/contact-us', label: 'Contact Us' },
   { routerLink: '/info', label: 'Info' },
-  { routerLink: '/fundraising', label: 'Fundraising' }
+  { routerLink: '/fundraising', label: 'Fundraising' },
 ];
