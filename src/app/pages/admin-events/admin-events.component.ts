@@ -1,16 +1,16 @@
 import {Component, inject, OnInit} from '@angular/core';
+import {DatePipe, NgOptimizedImage} from '@angular/common';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 
 import {FirebaseService} from '../../services/firebase.service';
 import {EventDetails} from '../../models/event.iterface';
 import {AuthService} from '../../services/auth-service.service';
-import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-admin-events',
   standalone: true,
-  imports: [ReactiveFormsModule, DatePipe],
+  imports: [ReactiveFormsModule, DatePipe, NgOptimizedImage],
   templateUrl: './admin-events.component.html',
   styleUrl: './admin-events.component.scss'
 })
@@ -54,8 +54,13 @@ export class AdminEventsComponent implements OnInit {
   }
 
   deleteEvent(eventId: string): void {
-    this.firebaseService.deleteEvent(eventId).subscribe();
+    this.firebaseService.deleteEvent(eventId).subscribe(() => {
+      this.firebaseService.getEvents().subscribe(events => {
+        this.events = events;
+      });
+    });
   }
+
 
   logout(): void {
     this.authService.logout();

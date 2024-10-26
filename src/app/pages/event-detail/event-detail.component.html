@@ -6,7 +6,7 @@
     </div>
 
     <div class="event-content">
-      <img [src]="event.imageUrl" [alt]="event.title">
+      <img [ngSrc]="event.imageUrl" [alt]="event.title" width="300" height="300" priority>
 
       <div class="event-info">
         <p class="description">{{ event.description }}</p>

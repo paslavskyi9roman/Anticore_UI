@@ -14,7 +14,11 @@
     <div class="image-upload">
       <input type="file" (change)="onFileSelected($event)" accept="image/*">
       @if (eventForm.get('imageUrl')?.value) {
-        <img [src]="eventForm.get('imageUrl')?.value" alt="Event preview">
+        <img [ngSrc]="eventForm.get('imageUrl')?.value"
+             [alt]="eventForm.get('title')?.value"
+             width="300"
+             height="300"
+             priority>
       }
     </div>
     <button type="submit" [disabled]="!eventForm.valid">Add Event</button>
