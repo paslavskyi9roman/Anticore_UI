@@ -1,0 +1,19 @@
+.icon {
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  &.facebook {
+    background-image: url('/assets/icons/facebook.svg');
+  }
+
+  &.instagram {
+    background-image: url(/assets/icons/instagram.svg);
+  }
+
+  &.telegram {
+    background-image: url(/assets/icons/telegram.svg);
+  }
+}

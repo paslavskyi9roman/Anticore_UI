@@ -1,15 +1,25 @@
-nav {
+.header-content {
   background-color: #000;
-  color: white;
   padding: 1rem;
 }
 
 ul {
   list-style: none;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
   margin: 0;
   padding: 0;
+}
+
+.logo {
+  background-image: url('../../../assets/icons/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 35px;
+  width: 200px;
 }
 
 li {
@@ -20,6 +30,24 @@ a {
   color: white;
   text-decoration: none;
   padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #555;
+  }
+}
+
+.social-links {
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+}
+
+.social-links a {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem;
   border-radius: 4px;
   transition: background-color 0.3s;
 
