@@ -7,6 +7,7 @@ import {InfoComponent} from './pages/info/info.component';
 import {FundraisingComponent} from './pages/fundraising/fundraising.component';
 import {LoginComponent} from './components/login/login.component';
 import {authGuard} from './guards/authGuard';
+import {AdminEventsComponent} from './pages/admin-events/admin-events.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -18,16 +19,11 @@ export const routes: Routes = [
   {path: 'contact-us', component: ContactsComponent},
   {path: 'info', component: InfoComponent},
   {path: 'fundraising', component: FundraisingComponent},
+  { path: 'login', component: LoginComponent },
   {
-    path: 'admin',
-    children: [
-      {path: 'login', component: LoginComponent},
-      {
-        path: 'events',
-        loadComponent: () => import('./pages/admin-events/admin-events.component').then(m => m.AdminEventsComponent),
-        canActivate: [authGuard]
-      }
-    ]
+    path: 'admin-events',
+    component: AdminEventsComponent,
+    canActivate: [authGuard]
   },
   {path: '**', redirectTo: ''}
 ];
