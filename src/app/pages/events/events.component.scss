@@ -3,11 +3,15 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
   padding: 2rem;
+  margin: 0 auto;
+  max-width: 1200px;
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .event-card {
   cursor: pointer;
-  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
@@ -17,7 +21,7 @@
   }
 
   img {
-    width: 100%;
+    width: 300px;
     height: 300px;
     object-fit: cover;
   }
@@ -37,3 +41,6 @@
     }
   }
 }
+
+
+

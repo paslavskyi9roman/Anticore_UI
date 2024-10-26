@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "staging": "anticore-lviv",
+    "default": "anticore-lviv"
+  },
+  "targets": {},
+  "etags": {}
+}
