@@ -1,20 +1,19 @@
-import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import {inject, Injectable} from '@angular/core';
+import { Firestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from '@angular/fire/firestore';
+import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { Observable, from, switchMap } from 'rxjs';
 
 import { EventDetails } from '../models/event.iterface';
-import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
-  private app = initializeApp(environment.firebase);
-  private db = getFirestore(this.app);
+  private firestore: Firestore = inject(Firestore);
+  private storage: Storage = inject(Storage);
 
   getEvents(): Observable<EventDetails[]> {
-    const eventsCol = collection(this.db, 'events');
+    const eventsCol = collection(this.firestore, 'events');
     const eventSnapshotPromise = getDocs(eventsCol);
     return from(eventSnapshotPromise.then(eventSnapshot =>
       eventSnapshot.docs.map(doc => ({
@@ -25,20 +24,27 @@ export class FirebaseService {
   }
 
   addEvent(event: Omit<EventDetails, 'id'>): Observable<string> {
-    const eventsCol = collection(this.db, 'events');
+    const eventsCol = collection(this.firestore, 'events');
     const docRefPromise = addDoc(eventsCol, event);
     return from(docRefPromise.then(docRef => docRef.id));
   }
 
   updateEvent(event: EventDetails): Observable<void> {
-    const eventRef = doc(this.db, 'events', event.id);
+    const eventRef = doc(this.firestore, 'events', event.id);
     const updateDocPromise = updateDoc(eventRef, { ...event });
     return from(updateDocPromise);
   }
 
   deleteEvent(eventId: string): Observable<void> {
-    const eventRef = doc(this.db, 'events', eventId);
+    const eventRef = doc(this.firestore, 'events', eventId);
     const deleteDocPromise = deleteDoc(eventRef);
     return from(deleteDocPromise);
+  }
+
+  uploadImage(file: File): Observable<string> {
+    const storageRef = ref(this.storage, `events/${file.name}`);
+    return from(uploadBytes(storageRef, file)).pipe(
+      switchMap(() => from(getDownloadURL(storageRef)))
+    );
   }
 }

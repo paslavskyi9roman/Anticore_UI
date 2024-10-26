@@ -1,8 +1,8 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from '@angular/forms';
 
-import { FirebaseService } from '../../services/firebase.service';
+import {FirebaseService} from '../../services/firebase.service';
 import {EventDetails} from '../../models/event.iterface';
 import {AuthService} from '../../services/auth-service.service';
 import {DatePipe} from '@angular/common';
@@ -14,14 +14,16 @@ import {DatePipe} from '@angular/common';
   templateUrl: './admin-events.component.html',
   styleUrl: './admin-events.component.scss'
 })
+
 export class AdminEventsComponent implements OnInit {
   events: EventDetails[] = [];
   eventForm: FormGroup;
   private authService = inject(AuthService);
   private router = inject(Router);
+  private firebaseService: FirebaseService = inject(FirebaseService);
+
   constructor(
     private fb: FormBuilder,
-    private firebaseService: FirebaseService
   ) {
     this.eventForm = this.fb.group({
       title: ['', Validators.required],
@@ -34,13 +36,13 @@ export class AdminEventsComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.firebaseService.getEvents().subscribe(events => {
       this.events = events;
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.eventForm.valid) {
       this.firebaseService.addEvent(this.eventForm.value).subscribe(() => {
         this.eventForm.reset();
@@ -51,14 +53,21 @@ export class AdminEventsComponent implements OnInit {
     }
   }
 
-
-  deleteEvent(eventId: string) {
+  deleteEvent(eventId: string): void {
     this.firebaseService.deleteEvent(eventId).subscribe();
   }
 
-
-  logout() {
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.firebaseService.uploadImage(file).subscribe(imageUrl => {
+        this.eventForm.patchValue({imageUrl});
+      });
+    }
   }
 }
