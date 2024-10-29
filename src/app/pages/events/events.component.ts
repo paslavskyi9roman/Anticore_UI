@@ -19,7 +19,7 @@ export class EventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.firebaseService.getEvents().subscribe(events => {
-      this.events = events;
+      this.events = events.reverse();
     });
   }
 }

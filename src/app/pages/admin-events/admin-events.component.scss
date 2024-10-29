@@ -97,5 +97,13 @@
         background: #ff6666;
       }
     }
+    .event-actions {
+      display: flex;
+      gap: 1rem;
+      .edit {
+        color: #fafae0;
+        background-color: #e3e344;
+      }
+    }
   }
 }
