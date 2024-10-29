@@ -1,15 +1,16 @@
 footer {
-  background-color: #333;
-  background-image: url("footer.jpg");
+  background-color: #000;
+  // background-image: url("footer.avif");
   background-size: cover;
-  background-position: center;
+  background-position: bottom;
   background-repeat: no-repeat;
-
-
   color: white;
   padding: 1rem;
   text-align: center;
-
+  height: 42vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .footer-content {
@@ -34,4 +35,13 @@ footer {
   &:hover {
     background-color: #555;
   }
+}
+
+.logo {
+  background-image: url('../../../assets/icons/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 75px;
+  width: 325px;
 }

@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import { Firestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from '@angular/fire/firestore';
-import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { Storage, ref, uploadBytes, getDownloadURL, deleteObject } from '@angular/fire/storage';
 import { Observable, from, switchMap } from 'rxjs';
 
 import { EventDetails } from '../models/event.iterface';
@@ -36,9 +36,22 @@ export class FirebaseService {
   }
 
   deleteEvent(eventId: string): Observable<void> {
-    const eventRef = doc(this.firestore, 'events', eventId);
-    const deleteDocPromise = deleteDoc(eventRef);
-    return from(deleteDocPromise);
+    return this.getEvents().pipe(
+      switchMap(events => {
+        const event = events.find(e => e.id === eventId);
+        if (event?.imageUrl) {
+          const imageRef = ref(this.storage, event.imageUrl);
+          return from(deleteObject(imageRef)).pipe(
+            switchMap(() => {
+              const eventRef = doc(this.firestore, 'events', eventId);
+              return from(deleteDoc(eventRef));
+            })
+          );
+        }
+        const eventRef = doc(this.firestore, 'events', eventId);
+        return from(deleteDoc(eventRef));
+      })
+    );
   }
 
   uploadImage(file: File): Observable<string> {

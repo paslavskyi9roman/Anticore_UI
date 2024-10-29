@@ -18,6 +18,8 @@ import {AuthService} from '../../services/auth-service.service';
 export class AdminEventsComponent implements OnInit {
   events: EventDetails[] = [];
   eventForm: FormGroup;
+  isEditMode = false;
+  editingEventId: string | null = null;
   private authService = inject(AuthService);
   private router = inject(Router);
   private firebaseService: FirebaseService = inject(FirebaseService);
@@ -42,15 +44,42 @@ export class AdminEventsComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (this.eventForm.valid) {
-      this.firebaseService.addEvent(this.eventForm.value).subscribe(() => {
-        this.eventForm.reset();
-        this.firebaseService.getEvents().subscribe(events => {
-          this.events = events;
+      if (this.isEditMode && this.editingEventId) {
+        const updatedEvent = {
+          id: this.editingEventId,
+          ...this.eventForm.value
+        };
+        this.firebaseService.updateEvent(updatedEvent).subscribe(() => {
+          this.resetForm();
+          this.firebaseService.getEvents().subscribe(events => {
+            this.events = events;
+          });
         });
-      });
+      } else {
+        this.firebaseService.addEvent(this.eventForm.value).subscribe(() => {
+          this.resetForm();
+          this.firebaseService.getEvents().subscribe(events => {
+            this.events = events;
+          });
+        });
+      }
     }
+  }
+
+  editEvent(event: EventDetails) {
+    this.isEditMode = true;
+    this.editingEventId = event.id;
+    this.eventForm.patchValue({
+      title: event.title,
+      date: event.date,
+      description: event.description,
+      location: event.location,
+      price: event.price,
+      ticketLink: event.ticketLink,
+      imageUrl: event.imageUrl
+    });
   }
 
   deleteEvent(eventId: string): void {
@@ -74,5 +103,11 @@ export class AdminEventsComponent implements OnInit {
         this.eventForm.patchValue({imageUrl});
       });
     }
+  }
+
+  resetForm(): void {
+    this.isEditMode = false;
+    this.editingEventId = null;
+    this.eventForm.reset();
   }
 }
